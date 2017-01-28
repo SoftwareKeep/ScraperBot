@@ -1,0 +1,201 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,700,900');
+
+body {
+    padding-top: 130px;
+    padding-bottom: 60px;
+    background: #f9f9f9;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #eee;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+h2.page-title {
+    padding: 16px 34px;
+    margin: -16px -16px 50px -16px;
+    background: #1BBC9B;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 6px 6px 0 0;
+    text-shadow: 0 0 4px #049372;
+    letter-spacing:1px;
+    font-weight:700
+}
+h2.page-title i {
+    margin-right:8px;
+    font-size: 24px;
+    color:#A2DED0;
+
+}
+.top-bar {
+    background: #1BBC9B;
+    border-top: 4px solid #4ECDC4;
+    text-shadow: 0 0 4px #049372;
+}
+
+.navbar-brand {
+    background: #fff;
+    position: absolute;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    z-index: 2;
+    border-radius: 0 0 4px 4px;
+    top:0;
+    transition:all 200ms ease;
+    width:220px;
+    height:120px;
+    text-align: center;
+}
+.navbar-brand img{
+    position:absolute;
+    top:0;
+    left:50%;
+    margin-left:-100px;
+    width:200px;
+    transition:all 200ms ease;
+}
+.navbar-brand img.logo {
+    opacity:1;
+}
+.navbar-brand img.logo-scroll {
+    opacity:0;
+    margin-left:-83px;
+    width:166px;
+}
+body.scroll .navbar-brand img.logo {
+    top:-10px;
+    opacity:0;
+}
+body.scroll .navbar-brand img.logo-scroll {
+    opacity:1;
+}
+body.scroll .navbar-brand {
+    position: absolute;
+    box-shadow: none;
+    border-radius: 0;
+    top: 0;
+    height:80px;
+}
+
+#menu {
+}
+
+header.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index:999;
+}
+
+header nav.navbar {
+    position: relative;
+    z-index: 1;
+    border-radius: 0;
+    box-shadow: 0 4px 4px rgba(0,0,0,0.1);
+    border:none;
+    background:#fff;
+}
+
+header .nav.navbar-nav {
+    padding-left: 210px;
+    position: relative;
+}
+header .nav.navbar-nav li >a  {
+  padding:15px;
+  border:none;
+  color:#000;
+}
+
+    header .nav.navbar-nav li > a:hover, header .nav.navbar-nav li > a:active, header .nav.navbar-nav li > a:focus {
+        
+        color:#019875;
+    }
+    header .nav.navbar-nav.navbar-right li > a {
+        color: #fff;
+        outline: none !important;
+        padding: 4px 15px 7px;
+    }
+
+
+        header .nav.navbar-nav.navbar-right li > a:hover, header .nav.navbar-nav.navbar-right li > a:active, header .nav.navbar-nav.navbar-right li > a:focus {
+            background: #4ECDC4;
+        }
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ecf0f1;
+    padding: 5px 0;
+    color: #666;
+    font-size: 12px;
+    box-shadow: 0 -5px 5px rgba(0,0,0,0.1);
+}
+footer p {
+    margin: 0;
+}
+table.table {
+margin: 10px 0 25px 0 !important;
+    display: inline-table;
+}
+table.table .price-history {
+    float:right;
+    font-size:20px;
+    color:#F7CA18;
+    cursor:pointer;
+}
+table.table .price-history:hover {
+    color:#049372;
+}
+table.table thead {
+    background: #1BBC9B;
+    color: #fff;
+    text-shadow: 0 0 4px #049372;
+    font-weight:400;
+}
+    table.table thead th:not(:last-child) {
+        border-right: 2px solid #ddd;
+    }
+
+    .form {
+        margin:20px 0;
+        border-bottom:1px solid #ddd;
+        padding-bottom:15px;
+    }
+.dataTables_wrapper .dataTables_paginate, .dataTables_wrapper .dataTables_length {
+    float: right;
+    margin-right: 30px;
+}
+    .dataTables_wrapper .dataTables_length label {
+    margin-bottom:0;
+    margin-top:4px;
+    }
+    .dataTables_wrapper .dataTables_info {
+    float:left;
+}
+
+
+    .popover {
+        width:auto;
+        max-width:none;
+    }
+    #chart i {
+        position:absolute;
+        left:50%;
+        top:50%;
+        margin:-20px 0 0 -20px;
+    }

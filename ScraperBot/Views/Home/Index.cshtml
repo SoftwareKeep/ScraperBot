@@ -1,0 +1,32 @@
+﻿@using ScraperBot.Models
+@model List<StoreTable>
+@{
+    ViewBag.Title = "DashBoard";
+}
+
+
+<div class="row">
+@foreach (StoreTable store in Model)
+{
+    <div class="col-md-3">
+        <h2>@Html.Raw(store.storeName)</h2>
+        <p>% of craw</p>
+        <div class="progress">
+            <div class="progress-bar progress-bar-@if (store.crawled >= 75)
+            {
+                                @Html.Raw("success");
+            }
+            else if (store.crawled < 75 && store.crawled >= 25)
+            {
+                                @Html.Raw("warning");
+            }
+            else if (store.crawled < 25)
+            {
+                                @Html.Raw("danger");
+            } " role="progressbar" aria-valuenow="@Html.Raw(store.crawled)" aria-valuemin="0" aria-valuemax="100" style="width: @Html.Raw(store.crawled)%; min-width: 2em;">
+                @Html.Raw(store.crawled)%
+            </div>
+        </div>
+    </div>
+}
+</div>

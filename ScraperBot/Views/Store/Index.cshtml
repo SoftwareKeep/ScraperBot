@@ -1,0 +1,216 @@
+﻿
+@using ScraperBot.Models
+@model List<StoreTable>
+
+
+@{
+    ViewBag.Title = "Stores";
+}
+
+<h2 class="page-title"><i class="fa fa-shopping-cart"></i> Stores</h2>
+<button class="btn btn-primary" data-target="#add-form" data-toggle="collapse"><i class="fa fa-cart-plus"></i> Add a new store</button>
+<div class="form">
+    @using (Html.BeginForm("Add", "Store", FormMethod.Post, new { id = "add-form", @class= "collapse" }))
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Store name</label>
+                    <input type="text" class="form-control" id="store-name" name="storeName">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Base URL</label>
+                    <input type="text" class="form-control" id="base-url" name="baseURL">
+                    <span id="helpBlock" class="help-block">Without "http://" and "www"</span>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Curency</label>
+                    <input type="text" class="form-control" id="currency" name="currency">
+                    <span id="helpBlock" class="help-block"> e.g. ($, R$, €, £ etc)</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Title Selector</label>
+                    <textarea type="text" class="form-control" id="title-selector" name="titleSelector"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Original price Selector</label>
+                    <textarea type="text" class="form-control" id="original-price-selector" name="originalPriceSelector"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Sale price Selector</label>
+                    <textarea type="text" class="form-control" id="sale-price-selector" name="salePriceSelector"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Badwords</label>
+                    <textarea type="text" class="form-control" id="badwords" name="badwords"> blog,wishlist,customer,checkout,help,compare,png,jpg,gif,bmp</textarea>
+                    <span id="helpBlock" class="help-block">split words by comma e.g. "blog,customer, help"</span>
+                </div>
+            </div>
+        </div>
+                <div class="row">
+                    <div class="col-lg-4">
+
+                        <label for="exampleInputEmail1">&nbsp;</label>
+                        <div>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save store</button>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Crawl date</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">From</div>
+                                    <input type="text" class="form-control" id="crawl-from" name="crawlFrom">
+                                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">&nbsp;</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">To</div>
+                                    <input type="text" class="form-control" id="crawl-to" name="crawlTo">
+                                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>*@
+    }
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped" id="table-products">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Base URL
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Original price
+                </th>
+                <th>
+                    Sale price
+                </th>
+                <th>
+                    Currency
+                </th>
+                <th>
+                    Badwords
+                </th>
+                <th>
+                    % crawled
+                </th>
+                <th>
+                    Products
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (StoreTable store in Model)
+            {
+
+                <tr>
+                    <td>
+                        @Html.Raw(store.storeName)
+                    </td>
+                    <td>
+                        @Html.Raw(store.baseURL)
+                    </td>
+                    <td>
+                        <a class="btn btn-default" tabindex="0" role="button" placement="top" data-toggle="popover" data-trigger="focus" data-content="@Html.Raw(store.titleSelector)">
+                            <i class="fa fa-eye"></i>
+                        </a>
+
+                    </td>
+                    <td>
+                        <a class="btn btn-default" tabindex="0" role="button" placement="top" data-toggle="popover" data-trigger="focus" data-content="@Html.Raw(store.originalPriceSelector)">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-default" tabindex="0" role="button" placement="top" data-toggle="popover" data-trigger="focus" data-content="@Html.Raw(store.salePriceSelector)">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                    </td>
+                    <td>
+                        @Html.Raw(store.currency)
+                    </td>
+
+                    <td>
+                        <a class="btn btn-default" tabindex="0" role="button" placement="top" data-toggle="popover" data-trigger="focus" data-content=" @Html.Raw(string.Join(", ",store.badwords))">
+                            <i class="fa fa-eye"></i>
+                        </a>
+
+                    </td>
+
+                    <td style="min-width:120px; width:120px; ">
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-@if (store.crawled >=75) {
+                                @Html.Raw("success");
+                            } else if (store.crawled < 75 && store.crawled >= 25) {
+                                @Html.Raw("warning");
+                            } else if (store.crawled < 25) {
+                                @Html.Raw("danger");
+                            } " role="progressbar" aria-valuenow="@Html.Raw(store.crawled)" aria-valuemin="0" aria-valuemax="100" style="width: @Html.Raw(string.Join(", ", store.crawled))%; min-width: 2em;">
+                                @Html.Raw(store.crawled)%
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.Raw(string.Join(", ", store.productsFound))
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+@section scripts {
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $(function () {
+                $('[data-toggle="popover"]').popover({
+                    placement: "top"
+                }
+                );
+            })
+
+
+        });
+
+    </script>
+}

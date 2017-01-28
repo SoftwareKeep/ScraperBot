@@ -1,0 +1,223 @@
+﻿
+@using ScraperBotModel
+@using ScraperBot.Models
+@using System.Globalization;
+@model List<ProductTable>
+@{
+    List<Store> stores = new ModelContainer().Stores.ToList();
+}
+
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2 class="page-title"><i class="fa fa-windows"></i> Products</h2>
+
+<div class="form">
+    @using (Html.BeginForm("Index", "Product", FormMethod.Post, new { id = "search-form" }))
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Product name</label>
+                    <input type="text" class="form-control" id="product-name" name="productName" placeholder="Type the name you want...">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Especific product name</label>
+                    <select class="form-control" id="e-product-name" name="eProductName">
+                        <option value="" selected>Select</option>
+                        <optgroup label="Windows">
+                            <option>Windows</option>
+                            <option>Windows 7</option>
+                            <option>Windows 8</option>
+                            <option>Windows 8.1</option>
+                            <option>Windows 10</option>
+                            <option>Windows Server</option>
+                        </optgroup>
+                        <optgroup label="Office">
+                            <option>Office 2010</option>
+                            <option>Office 2013</option>
+                            <option>Office 2016</option>
+                            <option>Word</option>
+                            <option>Excel</option>
+                            <option>PowerPoint</option>
+                        </optgroup>
+                        <optgroup label="Apps">
+                            <option>Outlook</option>
+                            <option>Access</option>
+                            <option>Project</option>
+                            <option>Visio</option>
+                            <option>SQL Server</option>
+                            <option>Visual Studio</option>
+                        </optgroup>
+                        <optgroup label="Other">
+                            <option>Kaspersky</option>
+                            <option>McAfee</option>
+                            <option>Antivirus</option>
+                            <option>Parallels</option>
+                            <option>Trend Micro</option>
+                            <option>Visual Studio</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+
+                <label for="exampleInputEmail1">&nbsp;</label>
+                <div>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search products</button>
+                </div>
+            </div>
+            @*<div class="col-lg-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1"> Show all prices?</label>
+                    <div>
+                        <label class="radio-inline">
+                            <input type="radio" name="priceType" id="price-type-1" value="option1" checked> Only the last
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="priceType" id="price-type-2" value="option2"> All prices
+                        </label>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+        @*<div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Crawl date</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">From</div>
+                        <input type="text" class="form-control" id="crawl-from" name="crawlFrom">
+                        <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">&nbsp;</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">To</div>
+                        <input type="text" class="form-control" id="crawl-to" name="crawlTo">
+                        <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>*@
+    }
+</div>
+
+<table class="table table-hover table-striped" id="table-products">
+    <thead>
+        <tr>
+            <th>
+                Product name
+            </th>
+            <th>
+                Last Price
+            </th>
+            <th>
+                Last crawl
+            </th>
+            <th>
+                Store name
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (ProductTable product in Model)
+        {
+            string currency = stores.Where(x => x.idStore == product.store.idStore).Select(x => x.currency).FirstOrDefault();
+            <tr>
+                <td>
+                    @Html.Raw(product.productName)
+                </td>
+                <td>
+                   
+                    @Html.Raw(currency + " " + product.prices.OrderByDescending(x => x.date).FirstOrDefault().price)
+                    @if (product.prices.Count > 1)
+                    {
+                        <i class="fa fa-circle-o-notch fa-spin fa-fw price-history" onmouseover="var data =[
+    @foreach (Price price in product.prices.Take(10))
+    {
+        @Html.Raw("['" + price.date.ToString("MMM, dd") + "', " + price.price.ToString("F", new CultureInfo("en-US")) + "],")
+    }
+                       ];
+       ShowChart(data,'@Html.Raw(product.store.name)','@Html.Raw(product.productName)')"></i>
+                    }
+                </td>
+                <td>
+                    @Html.Raw(((DateTime)product.lastCrawl).ToString("MMM dd, yyyy HH:mm"))
+                </td>
+                <td>
+                    @Html.Raw(product.store.name)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@section scripts {
+    <script type="text/javascript">
+
+        google.charts.load('current', { 'packages': ['line'] });
+
+        $(document).ready(function () {
+            $('#table-products').DataTable({
+                "pageLength": 25,
+                "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]],
+                "searching": false,
+                "sDom": '<"top"ipl><"clear">rt<"bottom"p>'
+            });
+        });
+
+        $('.price-history').removeClass("fa-circle-o-notch fa-fw fa-spin");
+        $('.price-history').addClass("fa-clock-o");
+
+        $('.price-history').popover({
+            trigger: 'hover focus',
+            placement: 'top',
+            html: true,
+            title: "Price History",
+            content: '<div id="chart" style="width: 560px; height: 300px"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>'
+        })
+
+
+        //google.charts.setOnLoadCallback(drawChart);
+
+
+
+        function ShowChart(data, productName, storeName) {
+
+            var prices = new google.visualization.DataTable();
+            prices.addColumn('string', 'Day');
+            prices.addColumn('number', 'Price');
+
+            var options = {
+                subtitle: productName + ' - ' + storeName,
+                animation: {
+                    startup: true,
+                    duration: 1000,
+                    easing: 'out'
+                }
+            };
+            window.setTimeout(function () {
+
+                var chart = new google.charts.Line(document.getElementById('chart'));
+
+                chart.draw(prices, google.charts.Line.convertOptions(options));
+
+                prices.addRows(data);
+
+            }, 400);
+        }
+
+
+    </script>
+}
