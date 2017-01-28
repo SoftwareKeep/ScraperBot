@@ -22,7 +22,7 @@
             }
             else if (store.crawled < 25)
             {
-                                @Html.Raw("danger");
+                                @Html.Raw("danger"); 
             } " role="progressbar" aria-valuenow="@Html.Raw(store.crawled)" aria-valuemin="0" aria-valuemax="100" style="width: @Html.Raw(store.crawled)%; min-width: 2em;">
                 @Html.Raw(store.crawled)%
             </div>
